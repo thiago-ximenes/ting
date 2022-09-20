@@ -1,20 +1,24 @@
 def exists_word(word, instance):
-    files_with_that_word = []
-
-    for file in instance.data:
-        for line in file["linhas_do_arquivo"]:
-            if word in line:
-                files_with_that_word.append(file)
-                break
-
+    lower_word = word.lower()
     result = []
 
-    for file in files_with_that_word:
-        result.append({
-            "palavra": word,
-            "arquivo": file["nome_do_arquivo"],
-            
-        })
+    for file in instance.data:
+        occurrences = []
+        for key, line in enumerate(file["linhas_do_arquivo"], 1):
+            print(lower_word)
+            if lower_word in line.lower():
+                print(line.lower())
+                occurrences.append({"linha": key})
+                if key == len(file["linhas_do_arquivo"]):
+                    result.append(
+                        {
+                            "palavra": word,
+                            "arquivo": file["nome_do_arquivo"],
+                            "ocorrencias": occurrences,
+                        }
+                    )
+
+    return result
 
 
 def search_by_word(word, instance):
